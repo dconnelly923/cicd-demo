@@ -23,7 +23,7 @@ env:
   REGISTRY_HOSTNAME: us.icr.io
   IMAGE_NAME: cicd-demo
   IKS_CLUSTER: timetracker-cluster
-  IKS_CLUSTER_NAMESPACE: doug-lab
+  IKS_CLUSTER_NAMESPACE: doug-demo
   DEPLOYMENT_NAME: github-cicd-demo
   PORT: 80
 
@@ -56,6 +56,7 @@ jobs:
     # Build the Docker image
     - name: Build with Docker
       run: |
+        sed 's/%%IMAGE_TAG%%/${GITHUB_SHA}/g' template.html > index.html
         docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$IMAGE_NAME":"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
