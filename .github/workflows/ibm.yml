@@ -67,6 +67,7 @@ jobs:
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
       run: |
+        ibmcloud target -g time-tracker
         ibmcloud ks cluster config --cluster $IKS_CLUSTER
         kubectl config set-context --current --namespace=$IKS_CLUSTER_NAMESPACE
         kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA --dry-run -o yaml > deployment.yaml
